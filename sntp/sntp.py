@@ -18,13 +18,13 @@ class SNTPProtocol(asyncio.DatagramProtocol):
     def connection_made(self, transport: asyncio.DatagramTransport):
         self.transport = transport
 
-    def count_time(self) -> int:
+    def count_time(self):
         return (int(time.time() +
                     self.ntp_offset
                     + self.time_shift)
                 * 2 ** 32)
 
-    def create_package(self, data: bytes) -> bytes:
+    def create_package(self, data: bytes):
         received_packet = self.package_format.unpack(data)
         reply_package = self.package_format.pack(
             0b00100100, 1, 0, 0, 0, 0, 0, 0,
